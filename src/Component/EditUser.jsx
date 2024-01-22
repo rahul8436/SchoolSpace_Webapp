@@ -1,7 +1,7 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import react, { useState } from "react";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import react, { useState } from 'react';
 import {
   FormGroup,
   FormControl,
@@ -10,17 +10,17 @@ import {
   Button,
   styled,
   Typography,
-} from "@mui/material";
-import { addUser } from "../Service/api";
-import { useNavigate, useParams } from "react-router-dom";
-import { getUsers, editUser } from "../Service/api";
+} from '@mui/material';
+import { addUser } from '../Service/api';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getUsers, editUser } from '../Service/api';
 
 const initialValue = {
-  studentName: "",
-  classNo: "",
-  result: "",
-  score: "",
-  grade: "",
+  studentName: '',
+  classNo: '',
+  result: '',
+  score: '',
+  grade: '',
 };
 
 const Container = styled(FormGroup)`
@@ -32,7 +32,7 @@ const Container = styled(FormGroup)`
 `;
 
 const style = {
-  backgroundColor: "white",
+  backgroundColor: 'white',
 };
 
 export default function EditUser() {
@@ -40,7 +40,7 @@ export default function EditUser() {
   const handleOpen = () => setOpen(true);
   let navigate = useNavigate();
   const handleClose = () => {
-    navigate("/");
+    navigate('/');
   };
 
   const [user, setUser] = useState(initialValue);
@@ -69,7 +69,7 @@ export default function EditUser() {
   const editUserDetails = async () => {
     const response = await editUser(id, user);
     setUser();
-    navigate("/");
+    navigate('/');
   };
 
   const onValueChange = (e) => {
@@ -81,98 +81,98 @@ export default function EditUser() {
     <>
       <Button onClick={handleOpen}>
         Edit
-        <img src="../Assets/Images/Edit.png" />
+        <img src='../Assets/Images/Edit.png' />
       </Button>
       <Modal
         keepMounted
         open={open}
         onClose={handleClose}
-        aria-labelledby="keep-mounted-modal-title"
-        aria-describedby="keep-mounted-modal-description"
+        aria-labelledby='keep-mounted-modal-title'
+        aria-describedby='keep-mounted-modal-description'
       >
         <Container
           sx={style}
           style={{
-            margin: "auto",
-            backgroundColor: "#FFFFFF",
-            padding: "20px",
-            borderRadius: "20px",
-            width: "480px",
-            height: "500px",
+            margin: 'auto',
+            backgroundColor: '#FFFFFF',
+            padding: '20px',
+            borderRadius: '20px',
+            width: '480px',
+            height: '500px',
             // left: "480px",
-            left: "480px",
-            marginTop: "50px",
+            left: '480px',
+            marginTop: '50px',
           }}
         >
-          <Typography variant="h4">Edit Student</Typography>
+          <Typography variant='h4'>Edit Student</Typography>
           <FormControl>
-            <InputLabel htmlFor="my-input">Student Name</InputLabel>
+            <InputLabel htmlFor='my-input'>Student Name</InputLabel>
             <Input
               onChange={(e) => onValueChange(e)}
-              name="studentName"
+              name='studentName'
               value={studentName}
-              id="my-input"
-              aria-describedby="my-helper-text"
+              id='my-input'
+              aria-describedby='my-helper-text'
             />
           </FormControl>
           <FormControl>
-            <InputLabel htmlFor="my-input">Class</InputLabel>
+            <InputLabel htmlFor='my-input'>Class</InputLabel>
             <Input
               onChange={(e) => onValueChange(e)}
-              name="classNo"
+              name='classNo'
               value={classNo}
-              id="my-input"
-              aria-describedby="my-helper-text"
+              id='my-input'
+              aria-describedby='my-helper-text'
             />
           </FormControl>
 
           <FormControl>
-            <InputLabel htmlFor="my-input">Score</InputLabel>
+            <InputLabel htmlFor='my-input'>Score</InputLabel>
             <Input
               onChange={(e) => onValueChange(e)}
-              name="score"
+              name='score'
               value={score}
-              id="my-input"
-              aria-describedby="my-helper-text"
+              id='my-input'
+              aria-describedby='my-helper-text'
             />
           </FormControl>
 
           <FormControl>
-            <InputLabel htmlFor="my-input">Result</InputLabel>
+            <InputLabel htmlFor='my-input'>Result</InputLabel>
             <br />
-            <div style={{ border: "0px solid red" }}>
-              <p style={{ border: "0px solid green", width: "70px" }}>
+            <div style={{ border: '0px solid red' }}>
+              <p style={{ border: '0px solid green', width: '70px' }}>
                 {xyz(+user.score) ? (
-                  <div className="pass">Passed</div>
+                  <div className='pass'>Passed</div>
                 ) : (
-                  <div className="fail">Failed</div>
+                  <div className='fail'>Failed</div>
                 )}
               </p>
             </div>
           </FormControl>
 
           <FormControl>
-            <InputLabel htmlFor="my-input">Grade</InputLabel>
+            <InputLabel htmlFor='my-input'>Grade</InputLabel>
             <br />
-            <div style={{ border: "0px solid green", width: "70px" }}>
+            <div style={{ border: '0px solid green', width: '70px' }}>
               {xyz(+user.score) ? (
-                <div className="ave">
-                  <p style={{ color: "#2CA4D8" }}>Average</p>
+                <div className='ave'>
+                  <p style={{ color: '#2CA4D8' }}>Average</p>
                 </div>
               ) : (
-                <div className="poo">
-                  <p style={{ color: "#F24643" }}>Poor</p>
+                <div className='poo'>
+                  <p style={{ color: '#F24643' }}>Poor</p>
                 </div>
               )}
             </div>
           </FormControl>
-          <div style={{ display: "flex", marginLeft: "auto", gap: "5px" }}>
-            <Button variant="contained" color="primary" onClick={handleClose}>
-              Cancle
+          <div style={{ display: 'flex', marginLeft: 'auto', gap: '5px' }}>
+            <Button variant='outlined' color='primary' onClick={handleClose}>
+              Cancel
             </Button>
             <Button
-              variant="contained"
-              color="primary"
+              variant='contained'
+              color='primary'
               onClick={() => editUserDetails()}
             >
               Confirm

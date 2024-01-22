@@ -151,8 +151,8 @@ export default function AddUser() {
           </FormControl>
 
           <div style={{ display: "flex", marginLeft: "auto", gap: "5px" }}>
-            <Button variant="contained" color="primary" onClick={handleClose}>
-              Cancle
+            <Button variant="outlined" color="primary" onClick={handleClose}>
+              Cancel
             </Button>
             <Button
               variant="contained"
