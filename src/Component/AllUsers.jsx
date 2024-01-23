@@ -18,6 +18,7 @@ import Pagination from '@mui/material/Pagination';
 import SchoolSpace from './SchoolSpace';
 import EditUser from './EditUser';
 import AddUser from './AddUser';
+import RemoveUser from './RemoveUser';
 import { ReactComponent as EditSvg } from '../Assets/svgs/Edit.svg';
 import { ReactComponent as DeleteSvg } from '../Assets/svgs/Delete.svg';
 
@@ -116,6 +117,19 @@ const AllUsers = () => {
     setEditModalOpen(false);
   };
 
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deletedUser, setDeletedUser] = useState(null);
+
+  const openDeleteModal = (user) => {
+    setDeletedUser(user);
+    setDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeletedUser(null);
+    setDeleteModalOpen(false);
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -208,6 +222,7 @@ const AllUsers = () => {
                   borderRadius: '10px',
                   textAlign: 'center',
                   marginBottom: '5px',
+                  cursor: 'pointer !important',
                 }}
               >
                 + Add
@@ -298,19 +313,14 @@ const AllUsers = () => {
                                     }}
                                   />
                                 </Button>
-                                <Button>
-                                  <Link
-                                    to={`/remove/${user._id}`}
-                                    style={{ color: 'white' }}
-                                  >
-                                    <DeleteSvg
-                                      style={{
-                                        width: '20px',
-                                        height: '20px',
-                                        margin: '0 0 5px 0',
-                                      }}
-                                    />
-                                  </Link>
+                                <Button onClick={() => openDeleteModal(user)}>
+                                  <DeleteSvg
+                                    style={{
+                                      width: '20px',
+                                      height: '20px',
+                                      margin: '0 0 5px 0',
+                                    }}
+                                  />
                                 </Button>
                               </div>
                             </>
@@ -342,6 +352,14 @@ const AllUsers = () => {
           onClose={closeEditModal}
           onUpdateUsers={updateUsers}
           editedUser={editedUser}
+        />
+      )}
+      {deletedUser && (
+        <RemoveUser
+          isOpen={deleteModalOpen}
+          onClose={closeDeleteModal}
+          onUpdateUsers={updateUsers}
+          deletedUser={deletedUser}
         />
       )}
     </>

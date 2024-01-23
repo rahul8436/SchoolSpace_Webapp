@@ -1,19 +1,10 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import react, { useState, useEffect } from 'react';
-import {
-  FormGroup,
-  FormControl,
-  InputLabel,
-  Input,
-  Button,
-  styled,
-  Typography,
-} from '@mui/material';
-import { addUser } from '../Service/api';
+import { FormGroup, Button, styled, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getUsers, deleteUser } from '../Service/api';
+import { ReactComponent as DeleteSvg } from '../Assets/svgs/Delete.svg';
 
 const initialValue = {
   studentName: '',
@@ -35,18 +26,25 @@ const style = {
   backgroundColor: 'white',
 };
 
-export default function RemoveUser() {
+export default function RemoveUser({
+  isOpen,
+  onClose,
+  onUpdateUsers,
+  deletedUser,
+}) {
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
   let navigate = useNavigate();
-  const handleClose = () => {
-    setOpen(false);
-    navigate('/');
-  };
+
   const [user, setUser] = useState(initialValue);
 
   const { studentName, classNo, score, result, grade } = user;
-  const { id } = useParams();
+
+  React.useEffect(() => {
+    if (deletedUser) {
+      setUser(deletedUser);
+    }
+  }, [deletedUser]);
 
   useEffect(() => {
     loadUserDetails();
@@ -57,22 +55,40 @@ export default function RemoveUser() {
     setUser();
     navigate('/');
   };
+
+  const deleteUserDetails = async () => {
+    debugger;
+    try {
+      debugger;
+      await deleteUser(deletedUser._id);
+      onClose();
+      onUpdateUsers();
+    } catch (error) {
+      console.error('Error deleteing user:', error);
+    }
+  };
+
   const loadUserDetails = async () => {
-    const response = await getUsers(id);
+    const response = await getUsers(deletedUser._id);
     setUser(response.data);
   };
 
   return (
     <>
       <Button onClick={handleOpen}>
-        <img src='../Assets/Images/delete.png' />
+        <DeleteSvg
+          style={{
+            width: '20px',
+            height: '20px',
+            margin: '0 0 5px 0',
+          }}
+        />
       </Button>
       <Modal
-        keepMounted
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='keep-mounted-modal-title'
-        aria-describedby='keep-mounted-modal-description'
+        open={isOpen}
+        onClose={onClose}
+        aria-labelledby='edit-user-modal-title'
+        aria-describedby='edit-user-modal-description'
       >
         <Container
           style={{
@@ -186,13 +202,13 @@ export default function RemoveUser() {
           <hr style={{ width: '95%', Color: 'black' }} />
 
           <div style={{ display: 'flex', marginLeft: 'auto', gap: '5px' }}>
-            <Button variant='outlined' color='primary' onClick={handleClose}>
+            <Button variant='outlined' color='primary' onClick={onClose}>
               Cancel
             </Button>
             <Button
               variant='contained'
               color='error'
-              onClick={() => deleteUserData(user._id)}
+              onClick={deleteUserDetails}
             >
               Remove
             </Button>
