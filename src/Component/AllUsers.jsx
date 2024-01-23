@@ -91,6 +91,17 @@ const AllUsers = () => {
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
+  const [hoveredRow, setHoveredRow] = useState(null);
+
+  // Event handlers to update hover state
+  const handleRowMouseEnter = (index) => {
+    setHoveredRow(index);
+  };
+
+  const handleRowMouseLeave = () => {
+    setHoveredRow(null);
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -220,7 +231,11 @@ const AllUsers = () => {
                 ) : (
                   <TableBody>
                     {currentUsers.map((user, index) => (
-                      <TRow key={user.id}>
+                      <TRow
+                        key={user.id}
+                        onMouseEnter={() => handleRowMouseEnter(index)}
+                        onMouseLeave={handleRowMouseLeave}
+                      >
                         <TableCell style={{ width: '10%' }}>
                           {(currentPage - 1) * usersPerPage + index + 1}
                         </TableCell>
@@ -256,37 +271,41 @@ const AllUsers = () => {
                         </TableCell>
 
                         <TableCell>
-                          {user.grade}
-                          <div style={{ display: 'flex', gap: 'px' }}>
-                            <Button>
-                              <Link
-                                to={`/edit/${user._id}`}
-                                style={{ color: 'white' }}
-                              >
-                                <EditSvg
-                                  style={{
-                                    width: '20px',
-                                    height: '20px',
-                                    margin: '0 0 5px 0',
-                                  }}
-                                />
-                              </Link>
-                            </Button>
-                            <Button>
-                              <Link
-                                to={`/remove/${user._id}`}
-                                style={{ color: 'white' }}
-                              >
-                                <DeleteSvg
-                                  style={{
-                                    width: '20px',
-                                    height: '20px',
-                                    margin: '0 0 5px 0',
-                                  }}
-                                />
-                              </Link>
-                            </Button>
-                          </div>
+                          {hoveredRow === index && ( // Only render when row is hovered
+                            <>
+                              {user.grade}
+                              <div style={{ display: 'flex', gap: 'px' }}>
+                                <Button>
+                                  <Link
+                                    to={`/edit/${user._id}`}
+                                    style={{ color: 'white' }}
+                                  >
+                                    <EditSvg
+                                      style={{
+                                        width: '20px',
+                                        height: '20px',
+                                        margin: '0 0 5px 0',
+                                      }}
+                                    />
+                                  </Link>
+                                </Button>
+                                <Button>
+                                  <Link
+                                    to={`/remove/${user._id}`}
+                                    style={{ color: 'white' }}
+                                  >
+                                    <DeleteSvg
+                                      style={{
+                                        width: '20px',
+                                        height: '20px',
+                                        margin: '0 0 5px 0',
+                                      }}
+                                    />
+                                  </Link>
+                                </Button>
+                              </div>
+                            </>
+                          )}
                         </TableCell>
                       </TRow>
                     ))}
