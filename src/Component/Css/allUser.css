@@ -27,6 +27,7 @@
   font-size: "14px";
   font-family: "Montserrat";
   font-weight: 600;
+  line-height: 18px;
 }
 
 .poor {
@@ -34,4 +35,13 @@
   font-size: "14px";
   font-family: "Montserrat";
   font-weight: 600;
+  line-height: 18px;
+}
+
+.excellent{
+  color: "#2CBF6E";
+  font-size: "14px";
+  font-family: "Montserrat";
+  font-weight: 600;
+  line-height: 18px;
 }

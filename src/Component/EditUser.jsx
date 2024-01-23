@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import react, { useState } from 'react';
 import {
@@ -91,6 +90,26 @@ export default function EditUser({
     }
   };
 
+  const getScoreLevel = (x) => {
+    if (+x <= 30) {
+      return 1;
+    } else if (+x > 30 && +x <= 75) {
+      return 2;
+    } else if (+x > 75 && +x <= 100) {
+      return 3;
+    } else {
+      return 0;
+    }
+  };
+
+  const passOrFail = (x) => {
+    if (+x >= 30) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <>
       <Button onClick={handleOpen}>
@@ -160,7 +179,7 @@ export default function EditUser({
             <br />
             <div style={{ border: '0px solid red' }}>
               <p style={{ border: '0px solid green', width: '70px' }}>
-                {xyz(+user.score) ? (
+                {passOrFail(+user.score) ? (
                   <div className='pass'>Passed</div>
                 ) : (
                   <div className='fail'>Failed</div>
@@ -172,16 +191,22 @@ export default function EditUser({
           <FormControl>
             <InputLabel htmlFor='my-input'>Grade</InputLabel>
             <br />
-            <div style={{ border: '0px solid green', width: '70px' }}>
-              {xyz(+user.score) ? (
-                <div className='ave'>
-                  <p style={{ color: '#2CA4D8' }}>Average</p>
-                </div>
-              ) : (
-                <div className='poo'>
-                  <p style={{ color: '#F24643' }}>Poor</p>
-                </div>
-              )}
+            <div style={{ border: '0px solid red' }}>
+              <p style={{ border: '0px solid green', width: '70px' }}>
+                {getScoreLevel(user.score) === 2 ? (
+                  <div className='ave'>
+                    <p style={{ color: '#2CA4D8' }}>Average</p>
+                  </div>
+                ) : getScoreLevel(user.score) === 3 ? (
+                  <div className='excellent'>
+                    <p style={{ color: '#2CBF6E' }}>Excellent</p>
+                  </div>
+                ) : getScoreLevel(user.score) ? (
+                  <div className='poo'>
+                    <p style={{ color: '#F24643' }}>Poor</p>
+                  </div>
+                ) : null}
+              </p>
             </div>
           </FormControl>
           <div style={{ display: 'flex', marginLeft: 'auto', gap: '5px' }}>

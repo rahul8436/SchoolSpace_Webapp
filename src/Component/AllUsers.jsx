@@ -21,6 +21,7 @@ import AddUser from './AddUser';
 import RemoveUser from './RemoveUser';
 import { ReactComponent as EditSvg } from '../Assets/svgs/Edit.svg';
 import { ReactComponent as DeleteSvg } from '../Assets/svgs/Delete.svg';
+import style from '../Component/Css/allUser.css';
 
 const StyledTable = styled(Table)`
   width: 100%;
@@ -165,12 +166,22 @@ const AllUsers = () => {
     setUsers(response.data);
   };
 
-  const xyz = (x) => {
+  const getScoreLevel = (x) => {
+    if (+x <= 30) {
+      return 1;
+    } else if (+x > 30 && +x <= 75) {
+      return 2;
+    } else if (+x > 75 && +x <= 100) {
+      return 3;
+    } else {
+      return 0;
+    }
+  };
+
+  const passOrFail = (x) => {
     if (+x >= 30) {
-      console.log(x, 'pass');
       return true;
     } else {
-      console.log(x, 'napass');
       return false;
     }
   };
@@ -278,7 +289,7 @@ const AllUsers = () => {
                                 width: '70px',
                               }}
                             >
-                              {xyz(+user.score) ? (
+                              {passOrFail(+user.score) ? (
                                 <div className='pass'>Passed</div>
                               ) : (
                                 <div className='fail'>Failed</div>
@@ -288,15 +299,28 @@ const AllUsers = () => {
                         </TableCell>
                         <TableCell>{user.score}/100</TableCell>
                         <TableCell>
-                          {xyz(+user.score) ? (
-                            <div className='average'>
-                              <p style={{ color: '#2CA4D8' }}>Average</p>
-                            </div>
-                          ) : (
-                            <div className='poor'>
-                              <p style={{ color: '#F24643' }}>Poor</p>
-                            </div>
-                          )}
+                          <div style={{ border: '0px solid red' }}>
+                            <p
+                              style={{
+                                border: '0px solid green',
+                                width: '70px',
+                              }}
+                            >
+                              {getScoreLevel(user.score) === 2 ? (
+                                <div className='average'>
+                                  <p style={{ color: '#2CA4D8' }}>Average</p>
+                                </div>
+                              ) : getScoreLevel(user.score) === 1 ? (
+                                <div className='poor'>
+                                  <p style={{ color: '#F24643' }}>Poor</p>
+                                </div>
+                              ) : getScoreLevel(user.score) === 3 ? (
+                                <div className='excellent'>
+                                  <p style={{ color: '#2CBF6E' }}>Excellent</p>
+                                </div>
+                              ) : null}
+                            </p>
+                          </div>
                         </TableCell>
 
                         <TableCell>

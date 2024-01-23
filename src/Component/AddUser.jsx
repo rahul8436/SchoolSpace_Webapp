@@ -42,15 +42,24 @@ export default function AddUser({ isOpen, onClose, onUpdateUsers }) {
   };
 
   const [user, setUser] = useState(initialValue);
-  const [addd, setAddd] = useState('c xfxv ');
   const { studentName, classNo, score, result, grade } = user;
 
-  const xyz = (x) => {
+  const getScoreLevel = (x) => {
+    if (+x <= 30) {
+      return 1;
+    } else if (+x > 30 && +x <= 75) {
+      return 2;
+    } else if (+x > 75 && +x <= 100) {
+      return 3;
+    } else {
+      return 0;
+    }
+  };
+
+  const passOrFail = (x) => {
     if (+x >= 30) {
-      console.log(x, 'napass');
       return true;
     } else {
-      console.log(x, 'pass');
       return false;
     }
   };
@@ -132,7 +141,7 @@ export default function AddUser({ isOpen, onClose, onUpdateUsers }) {
             <br />
             <div style={{ border: '0px solid red' }}>
               <p style={{ border: '0px solid green', width: '70px' }}>
-                {xyz(+user.score) ? (
+                {passOrFail(+user.score) ? (
                   <div className='pass'>Passed</div>
                 ) : (
                   <div className='fail'>Failed</div>
@@ -146,15 +155,19 @@ export default function AddUser({ isOpen, onClose, onUpdateUsers }) {
             <br />
             <div style={{ border: '0px solid red' }}>
               <p style={{ border: '0px solid green', width: '70px' }}>
-                {xyz(+user.score) ? (
+                {getScoreLevel(user.score) === 2 ? (
                   <div className='ave'>
                     <p style={{ color: '#2CA4D8' }}>Average</p>
                   </div>
-                ) : (
+                ) : getScoreLevel(user.score) === 3 ? (
+                  <div className='excellent'>
+                    <p style={{ color: '#2CBF6E' }}>Excellent</p>
+                  </div>
+                ) : getScoreLevel(user.score) ? (
                   <div className='poo'>
                     <p style={{ color: '#F24643' }}>Poor</p>
                   </div>
-                )}
+                ) : null}
               </p>
             </div>
           </FormControl>
