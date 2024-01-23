@@ -64,6 +64,7 @@ export default function AddUser({ isOpen, onClose, onUpdateUsers }) {
       await addUser(user);
       onClose(); // Close the modal
       onUpdateUsers(); // Update the users in the parent component
+      setUser({});
     } catch (error) {
       console.error('Error adding user:', error);
       // Handle any error, show a message, or perform other actions as needed

@@ -35,7 +35,12 @@ const style = {
   backgroundColor: 'white',
 };
 
-export default function EditUser() {
+export default function EditUser({
+  isOpen,
+  onClose,
+  onUpdateUsers,
+  editedUser,
+}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   let navigate = useNavigate();
@@ -58,6 +63,12 @@ export default function EditUser() {
   };
 
   React.useEffect(() => {
+    if (editedUser) {
+      setUser(editedUser);
+    }
+  }, [editedUser]);
+
+  React.useEffect(() => {
     loadUserDetails();
   }, []);
 
@@ -66,15 +77,18 @@ export default function EditUser() {
     setUser(response.data);
   };
 
-  const editUserDetails = async () => {
-    const response = await editUser(id, user);
-    setUser();
-    navigate('/');
+  const onValueChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const onValueChange = (e) => {
-    console.log(e.target.value);
-    setUser({ ...user, [e.target.name]: e.target.value });
+  const editUserDetails = async () => {
+    try {
+      await editUser(editedUser._id, user);
+      onClose(); // Close the modal
+      onUpdateUsers(); // Update the users in the parent component
+    } catch (error) {
+      console.error('Error editing user:', error);
+    }
   };
 
   return (
@@ -89,11 +103,10 @@ export default function EditUser() {
         />
       </Button>
       <Modal
-        keepMounted
-        open={handleOpen}
-        onClose={handleClose}
-        aria-labelledby='keep-mounted-modal-title'
-        aria-describedby='keep-mounted-modal-description'
+        open={isOpen}
+        onClose={onClose}
+        aria-labelledby='edit-user-modal-title'
+        aria-describedby='edit-user-modal-description'
       >
         <Container
           sx={style}
@@ -172,13 +185,13 @@ export default function EditUser() {
             </div>
           </FormControl>
           <div style={{ display: 'flex', marginLeft: 'auto', gap: '5px' }}>
-            <Button variant='outlined' color='primary' onClick={handleClose}>
+            <Button variant='outlined' color='primary' onClick={onClose}>
               Cancel
             </Button>
             <Button
               variant='contained'
               color='primary'
-              onClick={() => editUserDetails()}
+              onClick={editUserDetails}
             >
               Confirm
             </Button>

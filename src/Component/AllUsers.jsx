@@ -16,6 +16,7 @@ import { getUsers, deleteUser, addUser } from '../Service/api';
 import { Link, useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import SchoolSpace from './SchoolSpace';
+import EditUser from './EditUser';
 import AddUser from './AddUser';
 import { ReactComponent as EditSvg } from '../Assets/svgs/Edit.svg';
 import { ReactComponent as DeleteSvg } from '../Assets/svgs/Delete.svg';
@@ -100,6 +101,19 @@ const AllUsers = () => {
 
   const handleRowMouseLeave = () => {
     setHoveredRow(null);
+  };
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editedUser, setEditedUser] = useState(null);
+
+  const openEditModal = (user) => {
+    setEditedUser(user);
+    setEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setEditedUser(null);
+    setEditModalOpen(false);
   };
 
   const handleClose = () => {
@@ -275,19 +289,14 @@ const AllUsers = () => {
                             <>
                               {user.grade}
                               <div style={{ display: 'flex', gap: 'px' }}>
-                                <Button>
-                                  <Link
-                                    to={`/edit/${user._id}`}
-                                    style={{ color: 'white' }}
-                                  >
-                                    <EditSvg
-                                      style={{
-                                        width: '20px',
-                                        height: '20px',
-                                        margin: '0 0 5px 0',
-                                      }}
-                                    />
-                                  </Link>
+                                <Button onClick={() => openEditModal(user)}>
+                                  <EditSvg
+                                    style={{
+                                      width: '20px',
+                                      height: '20px',
+                                      margin: '0 0 5px 0',
+                                    }}
+                                  />
                                 </Button>
                                 <Button>
                                   <Link
@@ -327,6 +336,14 @@ const AllUsers = () => {
           </Box>
         </Box>
       </Box>
+      {editedUser && (
+        <EditUser
+          isOpen={editModalOpen}
+          onClose={closeEditModal}
+          onUpdateUsers={updateUsers}
+          editedUser={editedUser}
+        />
+      )}
     </>
   );
 };
