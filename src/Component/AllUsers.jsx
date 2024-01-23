@@ -43,6 +43,9 @@ const TRow = styled(TableRow)`
     font-weight: 400;
     line-height: '18px';
   }
+  &:hover {
+    background-color: #f5f5f5; // Specify the background color you want on hover
+  }
 `;
 
 const TableContainer = styled('div')({
@@ -66,6 +69,7 @@ const PageInfo = styled('p')({
   fontStyle: 'normal',
   fontWeight: 400,
   lineHeight: '16px',
+  textAlign: 'left',
 });
 
 const Boxone = styled('div')({
@@ -223,11 +227,20 @@ const AllUsers = () => {
                         <TableCell>{user.studentName}</TableCell>
                         <TableCell>{user.classNo}th</TableCell>
                         <TableCell>
-                          {xyz(+user.score) ? (
-                            <div className='passed'>Passed</div>
-                          ) : (
-                            <div className='failed'>Failed</div>
-                          )}
+                          <div style={{ border: '0px solid red' }}>
+                            <p
+                              style={{
+                                border: '0px solid green',
+                                width: '70px',
+                              }}
+                            >
+                              {xyz(+user.score) ? (
+                                <div className='pass'>Passed</div>
+                              ) : (
+                                <div className='fail'>Failed</div>
+                              )}
+                            </p>
+                          </div>
                         </TableCell>
                         <TableCell>{user.score}/100</TableCell>
                         <TableCell>
