@@ -1,7 +1,7 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import react, { useState, useEffect } from "react";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import react, { useState, useEffect } from 'react';
 import {
   FormGroup,
   FormControl,
@@ -10,17 +10,17 @@ import {
   Button,
   styled,
   Typography,
-} from "@mui/material";
-import { addUser } from "../Service/api";
-import { useNavigate } from "react-router-dom";
-import style from "../Component/Css/addUser.css";
+} from '@mui/material';
+import { addUser } from '../Service/api';
+import { useNavigate } from 'react-router-dom';
+import style from '../Component/Css/addUser.css';
 
 const initialValue = {
-  studentName: "",
-  classNo: "",
-  result: "",
-  score: "",
-  grade: "",
+  studentName: '',
+  classNo: '',
+  result: '',
+  score: '',
+  grade: '',
 };
 
 const Container = styled(FormGroup)`
@@ -31,26 +31,26 @@ const Container = styled(FormGroup)`
         margin-top: 20px;
 `;
 
-export default function AddUser() {
+export default function AddUser({ isOpen, onClose, onUpdateUsers }) {
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
 
   let navigate = useNavigate();
   const handleClose = () => {
     setOpen(false);
-    navigate("/");
+    navigate('/');
   };
 
   const [user, setUser] = useState(initialValue);
-  const [addd, setAddd] = useState("c xfxv ");
+  const [addd, setAddd] = useState('c xfxv ');
   const { studentName, classNo, score, result, grade } = user;
 
   const xyz = (x) => {
     if (+x >= 30) {
-      console.log(x, "napass");
+      console.log(x, 'napass');
       return true;
     } else {
-      console.log(x, "pass");
+      console.log(x, 'pass');
       return false;
     }
   };
@@ -60,103 +60,111 @@ export default function AddUser() {
   };
 
   const addUserDetails = async () => {
-    await addUser(user);
-    handleClose();
-
-    navigate("/");
+    try {
+      await addUser(user);
+      onClose(); // Close the modal
+      onUpdateUsers(); // Update the users in the parent component
+    } catch (error) {
+      console.error('Error adding user:', error);
+      // Handle any error, show a message, or perform other actions as needed
+    }
   };
 
   return (
     <>
       <Modal
         keepMounted
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="keep-mounted-modal-title"
-        aria-describedby="keep-mounted-modal-description"
+        open={isOpen}
+        onClose={onClose}
+        aria-labelledby='keep-mounted-modal-title'
+        aria-describedby='keep-mounted-modal-description'
       >
         <Container
-          className="containerstyle"
+          className='containerstyle'
           style={{
-            margin: "auto",
-            backgroundColor: "#FFFFFF",
-            padding: "20px",
-            borderRadius: "20px",
-            width: "480px",
-            height: "500px",
+            margin: 'auto',
+            backgroundColor: '#FFFFFF',
+            padding: '20px',
+            borderRadius: '20px',
+            width: '480px',
+            height: '500px',
             // left: "480px",
-            left: "480px",
-            marginTop: "40px",
+            left: '480px',
+            marginTop: '40px',
           }}
         >
-          <Typography variant="h4">Add Student</Typography>
+          <Typography variant='h4'>Add Student</Typography>
           <FormControl>
-            <InputLabel htmlFor="my-input">Student Name</InputLabel>
+            <InputLabel htmlFor='my-input'>Student Name</InputLabel>
             <Input
               onChange={(e) => onValueChange(e)}
-              name="studentName"
+              name='studentName'
               value={studentName}
-              id="my-input"
+              id='my-input'
               required
             />
           </FormControl>
           <FormControl>
-            <InputLabel htmlFor="my-input">Class</InputLabel>
+            <InputLabel htmlFor='my-input'>Class</InputLabel>
             <Input
               onChange={(e) => onValueChange(e)}
-              name="classNo"
+              name='classNo'
               value={classNo}
-              id="my-input"
+              id='my-input'
               required
             />
           </FormControl>
 
           <FormControl>
-            <InputLabel htmlFor="my-input">Score</InputLabel>
+            <InputLabel htmlFor='my-input'>Score</InputLabel>
             <Input
               onChange={(e) => onValueChange(e)}
-              name="score"
+              name='score'
               value={score}
-              id="my-input"
+              id='my-input'
               required
             />
           </FormControl>
 
           <FormControl>
-            <InputLabel htmlFor="my-input">Result</InputLabel>
+            <InputLabel htmlFor='my-input'>Result</InputLabel>
             <br />
-            <div style={{ border: "0px solid red" }}>
-              <p style={{ border: "0px solid green", width: "70px" }}>
+            <div style={{ border: '0px solid red' }}>
+              <p style={{ border: '0px solid green', width: '70px' }}>
                 {xyz(+user.score) ? (
-                  <div className="pass">Passed</div>
+                  <div className='pass'>Passed</div>
                 ) : (
-                  <div className="fail">Failed</div>
+                  <div className='fail'>Failed</div>
                 )}
               </p>
             </div>
           </FormControl>
 
           <FormControl>
-            <InputLabel htmlFor="my-input">Grade</InputLabel>
+            <InputLabel htmlFor='my-input'>Grade</InputLabel>
             <br />
-            <div style={{ border: "0px solid red" }}>
-              <p style={{ border: "0px solid green", width: "70px" }}>
+            <div style={{ border: '0px solid red' }}>
+              <p style={{ border: '0px solid green', width: '70px' }}>
                 {xyz(+user.score) ? (
-                  <div className="ave"><p style={{color:"#2CA4D8"}}>Average</p></div>
+                  <div className='ave'>
+                    <p style={{ color: '#2CA4D8' }}>Average</p>
+                  </div>
                 ) : (
-                  <div className="poo"><p style={{color:"#F24643"}}>Poor</p></div>
+                  <div className='poo'>
+                    <p style={{ color: '#F24643' }}>Poor</p>
+                  </div>
                 )}
               </p>
             </div>
           </FormControl>
 
-          <div style={{ display: "flex", marginLeft: "auto", gap: "5px" }}>
-            <Button variant="outlined" color="primary" onClick={handleClose}>
+          <div style={{ display: 'flex', marginLeft: 'auto', gap: '5px' }}>
+            <Button variant='outlined' color='primary' onClick={onClose}>
               Cancel
             </Button>
             <Button
-              variant="contained"
-              color="primary"
+              variant='contained'
+              color='primary'
               onClick={() => addUserDetails()}
             >
               Confirm
