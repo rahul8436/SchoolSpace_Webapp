@@ -11,9 +11,9 @@ import {
   styled,
   Typography,
 } from '@mui/material';
-import { addUser } from '../Service/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getUsers, editUser } from '../Service/api';
+import { ReactComponent as EditSvg } from '../Assets/svgs/Edit.svg';
 
 const initialValue = {
   studentName: '',
@@ -36,7 +36,7 @@ const style = {
 };
 
 export default function EditUser() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   let navigate = useNavigate();
   const handleClose = () => {
@@ -80,12 +80,17 @@ export default function EditUser() {
   return (
     <>
       <Button onClick={handleOpen}>
-        Edit
-        <img src='../Assets/Images/Edit.png' />
+        <EditSvg
+          style={{
+            width: '48px',
+            height: '48px',
+            margin: '0 0 5px 0',
+          }}
+        />
       </Button>
       <Modal
         keepMounted
-        open={open}
+        open={handleOpen}
         onClose={handleClose}
         aria-labelledby='keep-mounted-modal-title'
         aria-describedby='keep-mounted-modal-description'

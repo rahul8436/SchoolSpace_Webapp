@@ -11,13 +11,14 @@ import {
   Box,
   Modal,
 } from '@mui/material';
-import { AiOutlineDelete } from 'react-icons/ai';
 import Spinner from './Spinner';
 import { getUsers, deleteUser, addUser } from '../Service/api';
 import { Link, useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import SchoolSpace from './SchoolSpace';
 import AddUser from './AddUser';
+import { ReactComponent as EditSvg } from '../Assets/svgs/Edit.svg';
+import { ReactComponent as DeleteSvg } from '../Assets/svgs/Delete.svg';
 
 const StyledTable = styled(Table)`
   width: 100%;
@@ -27,8 +28,7 @@ const THead = styled(TableRow)`
   & > th {
     font-size: 14px;
     font-family: Montserrat;
-    background: #e5e5e5;
-    color: #242424;
+    background: #f1f4f8;
     font-weight: 500;
     line-height: '18px';
   }
@@ -43,8 +43,8 @@ const TRow = styled(TableRow)`
     font-weight: 400;
     line-height: '18px';
   }
-  &:hover {
-    background-color: #f5f5f5; // Specify the background color you want on hover
+  &:hover > td {
+    background-color: #f1f4f8;
   }
 `;
 
@@ -263,11 +263,13 @@ const AllUsers = () => {
                                 to={`/edit/${user._id}`}
                                 style={{ color: 'white' }}
                               >
-                                <img
-                                  src='../Assets/Images/Edit.png'
-                                  alt='Edit'
+                                <EditSvg
+                                  style={{
+                                    width: '20px',
+                                    height: '20px',
+                                    margin: '0 0 5px 0',
+                                  }}
                                 />
-                                Edit
                               </Link>
                             </Button>
                             <Button>
@@ -275,11 +277,13 @@ const AllUsers = () => {
                                 to={`/remove/${user._id}`}
                                 style={{ color: 'white' }}
                               >
-                                <img
-                                  src='../Assets/Images/delete.png'
-                                  alt='Delete'
+                                <DeleteSvg
+                                  style={{
+                                    width: '20px',
+                                    height: '20px',
+                                    margin: '0 0 5px 0',
+                                  }}
                                 />
-                                Delete
                               </Link>
                             </Button>
                           </div>
