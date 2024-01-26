@@ -193,6 +193,7 @@ export default function RemoveUser({
                   }}
                 >
                   {classNo}
+                  {'th'}
                 </p>
               </div>
             </>

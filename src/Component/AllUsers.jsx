@@ -11,7 +11,6 @@ import {
   Box,
   Modal,
 } from '@mui/material';
-import Spinner from './Spinner';
 import { getUsers, deleteUser, addUser } from '../Service/api';
 import { Link, useNavigate } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
@@ -48,6 +47,7 @@ const TRow = styled(TableRow)`
   }
   &:hover > td {
     background-color: #f1f4f8;
+    cursor: pointer;
   }
 `;
 
@@ -264,96 +264,90 @@ const AllUsers = () => {
                   </THead>
                 </TableHead>
 
-                {!loaded ? (
-                  <div style={loaderstyle}>
-                    <Spinner />
-                  </div>
-                ) : (
-                  <TableBody>
-                    {currentUsers.map((user, index) => (
-                      <TRow
-                        key={user.id}
-                        onMouseEnter={() => handleRowMouseEnter(index)}
-                        onMouseLeave={handleRowMouseLeave}
-                      >
-                        <TableCell style={{ width: '10%' }}>
-                          {(currentPage - 1) * usersPerPage + index + 1}
-                        </TableCell>
-                        <TableCell>{user.studentName}</TableCell>
-                        <TableCell>{user.classNo}th</TableCell>
-                        <TableCell>
-                          <div style={{ border: '0px solid red' }}>
-                            <p
-                              style={{
-                                border: '0px solid green',
-                                width: '70px',
-                              }}
-                            >
-                              {passOrFail(+user.score) ? (
-                                <div className='pass'>Passed</div>
-                              ) : (
-                                <div className='fail'>Failed</div>
-                              )}
-                            </p>
-                          </div>
-                        </TableCell>
-                        <TableCell>{user.score}/100</TableCell>
-                        <TableCell>
-                          <div style={{ border: '0px solid red' }}>
-                            <p
-                              style={{
-                                border: '0px solid green',
-                                width: '70px',
-                              }}
-                            >
-                              {getScoreLevel(user.score) === 2 ? (
-                                <div className='average'>
-                                  <p style={{ color: '#2CA4D8' }}>Average</p>
-                                </div>
-                              ) : getScoreLevel(user.score) === 1 ? (
-                                <div className='poor'>
-                                  <p style={{ color: '#F24643' }}>Poor</p>
-                                </div>
-                              ) : getScoreLevel(user.score) === 3 ? (
-                                <div className='excellent'>
-                                  <p style={{ color: '#2CBF6E' }}>Excellent</p>
-                                </div>
-                              ) : null}
-                            </p>
-                          </div>
-                        </TableCell>
-
-                        <TableCell>
-                          {hoveredRow === index && ( // Only render when row is hovered
-                            <>
-                              {user.grade}
-                              <div style={{ display: 'flex', gap: 'px' }}>
-                                <Button onClick={() => openEditModal(user)}>
-                                  <EditSvg
-                                    style={{
-                                      width: '20px',
-                                      height: '20px',
-                                      margin: '0 0 5px 0',
-                                    }}
-                                  />
-                                </Button>
-                                <Button onClick={() => openDeleteModal(user)}>
-                                  <DeleteSvg
-                                    style={{
-                                      width: '20px',
-                                      height: '20px',
-                                      margin: '0 0 5px 0',
-                                    }}
-                                  />
-                                </Button>
+                <TableBody>
+                  {currentUsers.map((user, index) => (
+                    <TRow
+                      key={user.id}
+                      onMouseEnter={() => handleRowMouseEnter(index)}
+                      onMouseLeave={handleRowMouseLeave}
+                    >
+                      <TableCell style={{ width: '10%' }}>
+                        {(currentPage - 1) * usersPerPage + index + 1}
+                      </TableCell>
+                      <TableCell>{user.studentName}</TableCell>
+                      <TableCell>{user.classNo}th</TableCell>
+                      <TableCell>
+                        <div style={{ border: '0px solid red' }}>
+                          <p
+                            style={{
+                              border: '0px solid green',
+                              width: '70px',
+                            }}
+                          >
+                            {passOrFail(+user.score) ? (
+                              <div className='pass'>Passed</div>
+                            ) : (
+                              <div className='fail'>Failed</div>
+                            )}
+                          </p>
+                        </div>
+                      </TableCell>
+                      <TableCell>{user.score}/100</TableCell>
+                      <TableCell>
+                        <div style={{ border: '0px solid red' }}>
+                          <p
+                            style={{
+                              border: '0px solid green',
+                              width: '70px',
+                            }}
+                          >
+                            {getScoreLevel(user.score) === 2 ? (
+                              <div className='average'>
+                                <p style={{ color: '#2CA4D8' }}>Average</p>
                               </div>
-                            </>
-                          )}
-                        </TableCell>
-                      </TRow>
-                    ))}
-                  </TableBody>
-                )}
+                            ) : getScoreLevel(user.score) === 1 ? (
+                              <div className='poor'>
+                                <p style={{ color: '#F24643' }}>Poor</p>
+                              </div>
+                            ) : getScoreLevel(user.score) === 3 ? (
+                              <div className='excellent'>
+                                <p style={{ color: '#2CBF6E' }}>Excellent</p>
+                              </div>
+                            ) : null}
+                          </p>
+                        </div>
+                      </TableCell>
+
+                      <TableCell>
+                        {hoveredRow === index && ( // Only render when row is hovered
+                          <>
+                            {user.grade}
+                            <div style={{ display: 'flex', gap: 'px' }}>
+                              <Button onClick={() => openEditModal(user)}>
+                                <EditSvg
+                                  style={{
+                                    width: '20px',
+                                    height: '20px',
+                                    margin: '0 0 5px 0',
+                                  }}
+                                />
+                              </Button>
+                              <Button onClick={() => openDeleteModal(user)}>
+                                <DeleteSvg
+                                  style={{
+                                    width: '20px',
+                                    height: '20px',
+                                    margin: '0 0 5px 0',
+                                  }}
+                                />
+                              </Button>
+                            </div>
+                          </>
+                        )}
+                      </TableCell>
+                    </TRow>
+                  ))}
+                </TableBody>
               </StyledTable>
               <Pagination
                 count={Math.ceil(users.length / usersPerPage)}

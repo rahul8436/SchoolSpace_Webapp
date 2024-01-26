@@ -200,7 +200,13 @@ const SchoolSpace = () => {
            Students 
            1. Facing some issue with opacity , so couldn't use that
           */}
-          <div style={{ ...commonMenuItemStyle, border: '2px solid #2CA4D8' }}>
+          <div
+            style={{
+              ...commonMenuItemStyle,
+              border: '2px solid #2CA4D8',
+              cursor: 'pointer',
+            }}
+          >
             <StudentsSvg
               style={{ width: '24px', height: '24px', margin: '14px 0 0 3px' }}
             />
